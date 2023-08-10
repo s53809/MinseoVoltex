@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BGA
+    uniqueID: 2162716831
+    locked: 0
+  - name: BackGround
+    uniqueID: 2513531289
+    locked: 0
+  - name: Line
+    uniqueID: 2380025641
+    locked: 0
+  - name: Note
+    uniqueID: 3126414563
+    locked: 0
