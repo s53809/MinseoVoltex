@@ -1,11 +1,19 @@
 using System;
 
-[AttributeUsage(AttributeTargets.Method)] //해당 속성은 Method(함수)에만 붙힐 수 있다
-public class InspectorButtonAttribute : Attribute // Attribute를 상속시킨다
+[AttributeUsage(AttributeTargets.Method)]
+public class InspectorButtonAttribute : Attribute
 {
     public String Name { get; }
+    public Boolean InEditMode { get; }
     public InspectorButtonAttribute(String pName)
     {
         Name = pName;
+        InEditMode = false;
+    }
+
+    public InspectorButtonAttribute(String pName, Boolean InEditMode)
+    {
+        Name = pName;
+        this.InEditMode = InEditMode;
     }
 }

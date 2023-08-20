@@ -23,7 +23,7 @@ public class CustomInspectorButton : Editor
 
             if (GUILayout.Button(attribute.Name))
             {
-                if (!Application.isPlaying) continue;
+                if (!Application.isPlaying && !attribute.InEditMode) continue;
 
                 method.Invoke(monoBehavior, null);
             }

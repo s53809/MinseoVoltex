@@ -12,6 +12,11 @@ public class MonoPooledObject : MonoBehaviour
         else m_objectPooler.RetrieveObject(gameObject);
     }
 
+    public virtual void Spawn()
+    {
+        gameObject.SetActive(true);
+    }
+
     public void InitialSetting()
     {
         m_objectPooler = transform.parent.GetComponent<ObjectPool>();

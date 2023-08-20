@@ -49,7 +49,7 @@ public class ObjectPool : MonoBehaviour
             throw new Exception("You are trying to spawn an unreserved object into an object pool.");
         if (m_Pool[name].Count == 0) PushMoreObject(name);
         GameObject SpawnedObj = m_Pool[name].Dequeue();
-        SpawnedObj.SetActive(true);
+        SpawnedObj.GetComponent<MonoPooledObject>().Spawn();
         return SpawnedObj;
     }
     public GameObject SpawnObject(String name, Vector3 pos)
