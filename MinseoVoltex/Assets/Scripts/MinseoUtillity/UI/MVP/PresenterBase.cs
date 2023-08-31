@@ -21,6 +21,12 @@ public abstract class PresenterBase<TView> : Presenter where TView : ViewBase
         __view = GetComponent<TView>();
     }
 
+    public override void Bind()
+    {
+        if (HasViewOption(ViewOptions.isStacking))
+            UIInputManager.Ins.AddPresenter(this);
+    }
+
     public override void Hide()
     {
         __view.CloseView();
@@ -30,4 +36,5 @@ public abstract class PresenterBase<TView> : Presenter where TView : ViewBase
     {
         __view.OpenView();
     }
+    public override bool HasViewOption(ViewOptions options) => __view.options.HasFlag(options);
 }

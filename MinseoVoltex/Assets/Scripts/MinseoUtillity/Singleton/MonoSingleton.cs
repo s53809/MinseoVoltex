@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class MonoSingleton<T> : MonoBehaviour
+public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    private T m_instance;
-    public T Instance
+    private static T m_instance;
+    public static T Ins
     {
         get
         {
             if(m_instance == null)
             {
-                m_instance = GetComponent<T>();
-                return m_instance;
+                m_instance = (T)FindObjectOfType(typeof(T));
+                if(m_instance == null)
+                {
+                    var obj = new GameObject();
+                    m_instance = obj.AddComponent<T>();
+                    obj.name = $"{typeof(T)} ( Singleton )";
+                    DontDestroyOnLoad(obj);
+                }
             }
-            else
-            {
-                return m_instance;
-            }
+            return m_instance;
         }
     }
 

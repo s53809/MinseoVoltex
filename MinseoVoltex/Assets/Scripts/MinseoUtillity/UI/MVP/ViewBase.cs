@@ -8,7 +8,6 @@ public enum ViewOptions
     isEscapeClosing = 1,
     isStacking = 2,
     autoHideAtStart = 4,
-    isClosingOther = 8,
 }
 public abstract class ViewBase : MonoBehaviour
 {

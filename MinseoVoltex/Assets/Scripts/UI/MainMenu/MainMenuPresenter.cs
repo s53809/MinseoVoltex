@@ -1,17 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class MainMenuPresenter : PresenterBase<MainMenuView>
 {
+    public String Text = "Hello, World!";
     public override void Bind()
     {
-        _view.StartButton.onClick.AddListener(() => Debug.Log("Hello, World!"));
+        base.Bind();
+        UnityAction events = () => UIInputManager.Ins.PopPresenter();
+        PopupPresenter popup = FindObjectOfType<PopupPresenter>();
+        _view.StartButton.onClick.AddListener(() => popup.Bind(Text, ("Yaho", events)));
     }
 
     public override void Release()
     {
-        
     }
 }
