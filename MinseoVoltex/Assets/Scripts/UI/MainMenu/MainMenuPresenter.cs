@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,5 +17,19 @@ public class MainMenuPresenter : PresenterBase<MainMenuView>
 
     public override void Release()
     {
+    }
+}
+
+public partial class MainMenuView : ViewBase
+{
+    protected override void InitView()
+    {
+        StartCoroutine(BindStartButton());
+    }
+
+    IEnumerator BindStartButton()
+    {
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<MainMenuPresenter>().Bind();
     }
 }

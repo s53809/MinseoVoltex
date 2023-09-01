@@ -283,6 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee7031b69686dd46aa4a1b620523449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Text: Hello, World!
 --- !u!1 &1006461876
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,7 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291a89c47c1ae654985cea9776ff5ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  options: 6
+  options: -1
   Info: {fileID: 5276909423090534669}
   Button: {fileID: 7796132553682137743}
   ButtonText: {fileID: 3335943999339025945}
