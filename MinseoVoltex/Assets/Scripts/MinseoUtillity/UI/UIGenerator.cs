@@ -6,7 +6,13 @@ using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using UnityEngine;
 using System.Security.Permissions;
+using System.Resources;
+using UnityEditor;
+using Unity.VisualScripting;
+using UnityEditor.Compilation;
+using System.Collections;
 
+[ExecuteInEditMode]
 public class UIGenerator : MonoBehaviour
 {
     private CodeCompileUnit targetUnit;
@@ -17,7 +23,7 @@ public class UIGenerator : MonoBehaviour
     {
         GenerateCode(
             Path.Combine(
-            Application.dataPath, @"Scripts/UI", gameObject.name, $"{gameObject.name}View.cs"));
+            Application.dataPath, "Scripts", "UI", gameObject.name, $"{gameObject.name}View.cs"));
     }
 
     private void GenerateCode(String pFileName)
@@ -25,28 +31,40 @@ public class UIGenerator : MonoBehaviour
         //Generate Class
         targetUnit = new CodeCompileUnit();
         CodeNamespace samples = new CodeNamespace();
-        targetClass = new CodeTypeDeclaration(pFileName);
+        targetClass = new CodeTypeDeclaration($"{gameObject.name}View");
         targetClass.IsClass = true;
-        targetClass.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
+        targetClass.TypeAttributes = TypeAttributes.Public;
+        targetClass.IsPartial = true;
+        targetClass.BaseTypes.Add("ViewBase");
         samples.Types.Add(targetClass);
         targetUnit.Namespaces.Add(samples);
 
         //Generate Member
         CodeMemberField[] fields = GenerateMember();
         foreach (CodeMemberField field in fields)
-        {
             targetClass.Members.Add(field);
-        }
 
         //Generate Code
         CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
         CodeGeneratorOptions options = new CodeGeneratorOptions();
         options.BracingStyle = "C";
-        using(StreamWriter sourceWriter = new StreamWriter(pFileName))
-        {
-            
+        String newDirectory = pFileName.Replace($"{gameObject.name}View.cs", "");
+
+        if (!Directory.Exists(newDirectory))
+            Directory.CreateDirectory(newDirectory);
+
+        using (StreamWriter sourceWriter = new StreamWriter(pFileName))
             provider.GenerateCodeFromCompileUnit(targetUnit, sourceWriter, options);
-        }
+
+        AssetDatabase.Refresh();
+
+        Invoke(nameof(FinishGenerateCode), 0.5f);
+    }
+
+    void FinishGenerateCode()
+    {
+        gameObject.AddComponent(Type.GetType($"{gameObject.name}View"));
+        DestroyImmediate(gameObject.GetComponent<UIGenerator>());
     }
 
     private CodeMemberField[] GenerateMember()
@@ -69,9 +87,8 @@ public class UIGenerator : MonoBehaviour
 
     private CodeTypeReference FindUIComponent(GameObject obj)
     {
-        UITypes typeFinder = new UITypes();
         Component comp = new Component();
-        foreach(Type type in typeFinder)
+        foreach(Type type in UITypes.types)
         {
             if(obj.TryGetComponent(type, out comp))
             {
