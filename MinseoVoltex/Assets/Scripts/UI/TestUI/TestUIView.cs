@@ -15,5 +15,5 @@ public partial class TestUIView : ViewBase
     
     public UnityEngine.UI.Image HelloImage;
     
-    public UnityEngine.UI.Text MyNameIsText;
+    public UnityEngine.UI.Text Info;
 }
